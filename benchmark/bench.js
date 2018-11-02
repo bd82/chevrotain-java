@@ -1,17 +1,17 @@
 "use strict";
 /* eslint-disable import/no-extraneous-dependencies, no-console */
 const Benchmark = require("benchmark");
-const chevrotainJava = require("../src/index");
+const javaParser = require("../src/index");
 
 const input = require("./samples/small");
 const suite = new Benchmark.Suite();
 
-chevrotainJava.parse(input);
+javaParser.parse(input);
 
 // add tests
 suite
   .add("Chevrotain Based Parser", () => {
-    chevrotainJava.parse(input);
+    javaParser.parse(input);
   })
   // add listeners
   .on("cycle", event => {

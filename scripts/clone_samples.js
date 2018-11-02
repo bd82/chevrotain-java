@@ -9,6 +9,10 @@ const sampleRepos = [
   {
     repoUrl: "https://github.com/iluwatar/java-design-patterns.git",
     branch: "1.20.0"
+  },
+  {
+    repoUrl: "https://github.com/spring-projects/spring-boot.git",
+    branch: "v2.1.0.RELEASE"
   }
 ];
 
