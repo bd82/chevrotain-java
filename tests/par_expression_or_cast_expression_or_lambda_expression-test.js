@@ -2,8 +2,6 @@
 const Parser = require("../src/index");
 const { expect } = require("chai");
 
-const MismatchedTokenException = require("chevrotain").MismatchedTokenException;
-
 describe("parExpressionOrCastExpressionOrLambdaExpression", () => {
   it("parExpression", () => {
     expect(
