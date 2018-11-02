@@ -23,7 +23,7 @@
   },
   "scripts": {
     "ci": "npm-run-all build lint format_validate test",
-    "build": "node src/gen_diagrams.js",
+    "build": "node scripts/gen_diagrams.js",
     "format": "prettier --write \"**/*.@(js|json|md)\"",
     "format_validate": "prettier --list-different \"**/*.@(js|json|md)\"",
     "lint": "eslint src/**/*.js tests/**/*.js",
