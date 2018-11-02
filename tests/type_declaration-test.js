@@ -18,7 +18,10 @@ describe("typeDeclaration", () => {
         body: {
           type: "CLASS_BODY",
           declarations: []
-        }
+        },
+        extends: undefined,
+        implements: undefined,
+        typeParameters: undefined
       }
     });
   });
@@ -43,7 +46,10 @@ describe("typeDeclaration", () => {
         body: {
           type: "CLASS_BODY",
           declarations: []
-        }
+        },
+        extends: undefined,
+        implements: undefined,
+        typeParameters: undefined
       }
     });
   });
@@ -68,7 +74,10 @@ describe("typeDeclaration", () => {
         body: {
           type: "CLASS_BODY",
           declarations: []
-        }
+        },
+        extends: undefined,
+        implements: undefined,
+        typeParameters: undefined
       }
     });
   });
@@ -93,7 +102,10 @@ describe("typeDeclaration", () => {
         body: {
           type: "CLASS_BODY",
           declarations: []
-        }
+        },
+        extends: undefined,
+        implements: undefined,
+        typeParameters: undefined
       }
     });
   });
@@ -118,7 +130,10 @@ describe("typeDeclaration", () => {
         body: {
           type: "CLASS_BODY",
           declarations: []
-        }
+        },
+        extends: undefined,
+        implements: undefined,
+        typeParameters: undefined
       }
     });
   });
@@ -143,7 +158,10 @@ describe("typeDeclaration", () => {
         body: {
           type: "CLASS_BODY",
           declarations: []
-        }
+        },
+        extends: undefined,
+        implements: undefined,
+        typeParameters: undefined
       }
     });
   });
@@ -168,7 +186,10 @@ describe("typeDeclaration", () => {
         body: {
           type: "CLASS_BODY",
           declarations: []
-        }
+        },
+        extends: undefined,
+        implements: undefined,
+        typeParameters: undefined
       }
     });
   });
@@ -193,7 +214,10 @@ describe("typeDeclaration", () => {
         body: {
           type: "CLASS_BODY",
           declarations: []
-        }
+        },
+        extends: undefined,
+        implements: undefined,
+        typeParameters: undefined
       }
     });
   });
@@ -224,7 +248,10 @@ describe("typeDeclaration", () => {
         body: {
           type: "CLASS_BODY",
           declarations: []
-        }
+        },
+        extends: undefined,
+        implements: undefined,
+        typeParameters: undefined
       }
     });
   });

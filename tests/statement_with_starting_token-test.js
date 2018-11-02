@@ -21,7 +21,8 @@ describe("statementWithStartingToken", () => {
       type: "ASSERT_STATEMENT",
       booleanExpression: {
         type: "THIS"
-      }
+      },
+      valueExpression: undefined
     });
   });
 
@@ -74,8 +75,7 @@ describe("statementWithStartingToken", () => {
       body: {
         type: "BLOCK",
         statements: []
-      },
-      else: undefined
+      }
     });
   });
 

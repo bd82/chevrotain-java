@@ -17,7 +17,8 @@ describe("statement", () => {
       type: "ASSERT_STATEMENT",
       booleanExpression: {
         type: "THIS"
-      }
+      },
+      valueExpression: undefined
     });
   });
 
@@ -66,8 +67,7 @@ describe("statement", () => {
       body: {
         type: "BLOCK",
         statements: []
-      },
-      else: undefined
+      }
     });
   });
 
