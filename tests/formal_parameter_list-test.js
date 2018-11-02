@@ -1,13 +1,12 @@
 "use strict";
 const Parser = require("../src/index");
-
-const MismatchedTokenException = require("chevrotain").MismatchedTokenException;
+const { expect } = require("chai");
 
 describe("formalParameterList", () => {
   it("one formalParameter", () => {
     expect(
       Parser.parse("boolean a", parser => parser.formalParameterList())
-    ).toEqual([
+    ).to.deep.equal([
       {
         type: "FORMAL_PARAMETER",
         modifiers: [],
@@ -33,7 +32,7 @@ describe("formalParameterList", () => {
       Parser.parse("boolean a, boolean b", parser =>
         parser.formalParameterList()
       )
-    ).toEqual([
+    ).to.deep.equal([
       {
         type: "FORMAL_PARAMETER",
         modifiers: [],
@@ -76,7 +75,7 @@ describe("formalParameterList", () => {
       Parser.parse("boolean a, boolean... b", parser =>
         parser.formalParameterList()
       )
-    ).toEqual([
+    ).to.deep.equal([
       {
         type: "FORMAL_PARAMETER",
         modifiers: [],
@@ -114,11 +113,11 @@ describe("formalParameterList", () => {
     ]);
   });
 
-  it("not last is dotDotDot -> excpect error", () => {
+  it("not last is dotDotDot -> expect error", () => {
     expect(() =>
       Parser.parse("boolean... a, boolean b", parser =>
         parser.formalParameterList()
       )
-    ).toThrowError(MismatchedTokenException);
+    ).to.throw('Only last parameter is allowed with "..."');
   });
 });

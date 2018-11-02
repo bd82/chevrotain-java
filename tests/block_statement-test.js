@@ -1,13 +1,12 @@
 "use strict";
 const Parser = require("../src/index");
-
-const MismatchedTokenException = require("chevrotain").MismatchedTokenException;
+const { expect } = require("chai");
 
 describe("blockStatement", () => {
   it("localVariableDeclaration: primitive", () => {
     expect(
       Parser.parse("boolean A;", parser => parser.blockStatement())
-    ).toEqual({
+    ).to.deep.equal({
       type: "EXPRESSION_STATEMENT",
       expression: {
         type: "LOCAL_VARIABLE_DECLARATION",
@@ -41,7 +40,7 @@ describe("blockStatement", () => {
   it("localVariableDeclaration: complex", () => {
     expect(
       Parser.parse("Byte byteVariable;", parser => parser.blockStatement())
-    ).toEqual({
+    ).to.deep.equal({
       type: "EXPRESSION_STATEMENT",
       expression: {
         type: "LOCAL_VARIABLE_DECLARATION",
@@ -72,7 +71,7 @@ describe("blockStatement", () => {
   it("localVariableDeclaration: one modifier", () => {
     expect(
       Parser.parse("@Bean boolean A;", parser => parser.blockStatement())
-    ).toEqual({
+    ).to.deep.equal({
       type: "EXPRESSION_STATEMENT",
       expression: {
         type: "LOCAL_VARIABLE_DECLARATION",
@@ -89,7 +88,7 @@ describe("blockStatement", () => {
               ]
             },
             hasBraces: false,
-            values: undefined
+            values: []
           }
         ],
         typeType: {
@@ -121,43 +120,61 @@ describe("blockStatement", () => {
   it("localVariableDeclaration: wrong modifier 'public'", () => {
     expect(() =>
       Parser.parse("public boolean A;", parser => parser.blockStatement())
-    ).toThrow(MismatchedTokenException);
+    ).to.throw(
+      "Locale variable declaration can't have" +
+        " a public, protected, private, static, abstract or strictfp modifier."
+    );
   });
 
   it("localVariableDeclaration: wrong modifier 'protected'", () => {
     expect(() =>
       Parser.parse("protected boolean A;", parser => parser.blockStatement())
-    ).toThrow(MismatchedTokenException);
+    ).to.throw(
+      "Locale variable declaration can't have a" +
+        " public, protected, private, static, abstract or strictfp modifier."
+    );
   });
 
   it("localVariableDeclaration: wrong modifier 'private'", () => {
     expect(() =>
       Parser.parse("private boolean A;", parser => parser.blockStatement())
-    ).toThrow(MismatchedTokenException);
+    ).to.throw(
+      "Locale variable declaration can't have a public, protected, " +
+        "private, static, abstract or strictfp modifier."
+    );
   });
 
   it("localVariableDeclaration: wrong modifier 'static'", () => {
     expect(() =>
       Parser.parse("static boolean A;", parser => parser.blockStatement())
-    ).toThrow(MismatchedTokenException);
+    ).to.throw(
+      "Locale variable declaration can't have a public, protected, " +
+        "private, static, abstract or strictfp modifier."
+    );
   });
 
   it("localVariableDeclaration: wrong modifier 'abstract'", () => {
     expect(() =>
       Parser.parse("abstract boolean A;", parser => parser.blockStatement())
-    ).toThrow(MismatchedTokenException);
+    ).to.throw(
+      "Locale variable declaration can't have a public, protected, " +
+        "private, static, abstract or strictfp modifier."
+    );
   });
 
   it("localVariableDeclaration: wrong modifier 'strictfp'", () => {
     expect(() =>
       Parser.parse("strictfp boolean A;", parser => parser.blockStatement())
-    ).toThrow(MismatchedTokenException);
+    ).to.throw(
+      "Locale variable declaration can't have a public, protected, " +
+        "private, static, abstract or strictfp modifier."
+    );
   });
 
   it("classDeclaration", () => {
     expect(
       Parser.parse("class A{}", parser => parser.blockStatement())
-    ).toEqual({
+    ).to.deep.equal({
       type: "LOCAL_TYPE_DECLARATION",
       modifiers: [],
       declaration: {
@@ -180,7 +197,7 @@ describe("blockStatement", () => {
   it("localTypeDeclaration: interface", () => {
     expect(
       Parser.parse("interface A{}", parser => parser.blockStatement())
-    ).toEqual({
+    ).to.deep.equal({
       type: "LOCAL_TYPE_DECLARATION",
       modifiers: [],
       declaration: {
@@ -190,7 +207,7 @@ describe("blockStatement", () => {
           value: "A"
         },
         typeParameters: undefined,
-        typeList: undefined,
+        extends: undefined,
         body: {
           type: "INTERFACE_BODY",
           declarations: []
@@ -202,7 +219,7 @@ describe("blockStatement", () => {
   it("localTypeDeclaration: class", () => {
     expect(
       Parser.parse("class A{}", parser => parser.blockStatement())
-    ).toEqual({
+    ).to.deep.equal({
       type: "LOCAL_TYPE_DECLARATION",
       modifiers: [],
       declaration: {
@@ -225,7 +242,7 @@ describe("blockStatement", () => {
   it("localTypeDeclaration: one modifier", () => {
     expect(
       Parser.parse("public class A{}", parser => parser.blockStatement())
-    ).toEqual({
+    ).to.deep.equal({
       type: "LOCAL_TYPE_DECLARATION",
       modifiers: [
         {
@@ -253,7 +270,7 @@ describe("blockStatement", () => {
   it("localTypeDeclaration: multiple modifiers", () => {
     expect(
       Parser.parse("public static class A{}", parser => parser.blockStatement())
-    ).toEqual({
+    ).to.deep.equal({
       type: "LOCAL_TYPE_DECLARATION",
       modifiers: [
         {
@@ -283,7 +300,9 @@ describe("blockStatement", () => {
   });
 
   it("identifierStatement", () => {
-    expect(Parser.parse("a:this;", parser => parser.blockStatement())).toEqual({
+    expect(
+      Parser.parse("a:this;", parser => parser.blockStatement())
+    ).to.deep.equal({
       type: "IDENTIFIER_STATEMENT",
       identifier: {
         type: "IDENTIFIER",
@@ -300,7 +319,9 @@ describe("blockStatement", () => {
   });
 
   it("expressionStatement this", () => {
-    expect(Parser.parse("this;", parser => parser.blockStatement())).toEqual({
+    expect(
+      Parser.parse("this;", parser => parser.blockStatement())
+    ).to.deep.equal({
       type: "EXPRESSION_STATEMENT",
       expression: {
         type: "THIS"
@@ -310,7 +331,9 @@ describe("blockStatement", () => {
   });
 
   it("expressionStatement this()", () => {
-    expect(Parser.parse("this();", parser => parser.blockStatement())).toEqual({
+    expect(
+      Parser.parse("this();", parser => parser.blockStatement())
+    ).to.deep.equal({
       type: "EXPRESSION_STATEMENT",
       expression: {
         type: "THIS",
@@ -328,7 +351,7 @@ describe("blockStatement", () => {
       Parser.parse('System.out.println("please work");', parser =>
         parser.blockStatement()
       )
-    ).toEqual({
+    ).to.deep.equal({
       type: "EXPRESSION_STATEMENT",
       expression: {
         type: "QUALIFIED_EXPRESSION",
@@ -368,7 +391,7 @@ describe("blockStatement", () => {
   it("return ", () => {
     expect(
       Parser.parse("return this;", parser => parser.blockStatement())
-    ).toEqual({
+    ).to.deep.equal({
       type: "RETURN_STATEMENT",
       expression: {
         type: "THIS"
@@ -382,7 +405,7 @@ describe("blockStatement", () => {
         "final List<Filter> filterList = new ArrayList<>();",
         parser => parser.blockStatement()
       )
-    ).toEqual({
+    ).to.deep.equal({
       type: "FIELD_DECLARATION",
       typeType: {
         type: "TYPE_TYPE",

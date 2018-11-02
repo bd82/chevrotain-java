@@ -1,7 +1,6 @@
 "use strict";
 const Parser = require("../src/index");
-
-const MismatchedTokenException = require("chevrotain").MismatchedTokenException;
+const { expect } = require("chai");
 
 describe("parExpressionOrCastExpressionOrLambdaExpression", () => {
   it("parExpression", () => {
@@ -9,7 +8,7 @@ describe("parExpressionOrCastExpressionOrLambdaExpression", () => {
       Parser.parse("(this)", parser =>
         parser.parExpressionOrCastExpressionOrLambdaExpression()
       )
-    ).toEqual({
+    ).to.deep.equal({
       type: "PAR_EXPRESSION",
       expression: {
         type: "THIS"
@@ -22,7 +21,7 @@ describe("parExpressionOrCastExpressionOrLambdaExpression", () => {
       Parser.parse("(@Bean this)", parser =>
         parser.parExpressionOrCastExpressionOrLambdaExpression()
       )
-    ).toThrow(MismatchedTokenException);
+    ).to.throw("Expecting --> ')' <-- but found --> 'this' <--");
   });
 
   it("error: parExpression with typeArguments", () => {
@@ -30,7 +29,7 @@ describe("parExpressionOrCastExpressionOrLambdaExpression", () => {
       Parser.parse("(@Bean this<boolean>)", parser =>
         parser.parExpressionOrCastExpressionOrLambdaExpression()
       )
-    ).toThrow(MismatchedTokenException);
+    ).to.throw("Expecting --> ')' <-- but found --> 'this' <--");
   });
 
   it("error: parExpression with Squares", () => {
@@ -38,7 +37,7 @@ describe("parExpressionOrCastExpressionOrLambdaExpression", () => {
       Parser.parse("(@Bean this[])", parser =>
         parser.parExpressionOrCastExpressionOrLambdaExpression()
       )
-    ).toThrow(MismatchedTokenException);
+    ).to.throw("Expecting --> ')' <-- but found --> 'this' <--");
   });
 
   it("castExpression: primitiveType", () => {
@@ -46,7 +45,7 @@ describe("parExpressionOrCastExpressionOrLambdaExpression", () => {
       Parser.parse("(boolean) this", parser =>
         parser.parExpressionOrCastExpressionOrLambdaExpression()
       )
-    ).toEqual({
+    ).to.deep.equal({
       type: "CAST_EXPRESSION",
       castType: {
         type: "PRIMITIVE_TYPE",
@@ -63,7 +62,7 @@ describe("parExpressionOrCastExpressionOrLambdaExpression", () => {
       Parser.parse("(A) this", parser =>
         parser.parExpressionOrCastExpressionOrLambdaExpression()
       )
-    ).toEqual({
+    ).to.deep.equal({
       type: "CAST_EXPRESSION",
       castType: {
         type: "IDENTIFIER",
@@ -78,7 +77,7 @@ describe("parExpressionOrCastExpressionOrLambdaExpression", () => {
       Parser.parse("(A<B>) this", parser =>
         parser.parExpressionOrCastExpressionOrLambdaExpression()
       )
-    ).toEqual({
+    ).to.deep.equal({
       type: "CAST_EXPRESSION",
       castType: {
         type: "CLASS_OR_INTERFACE_TYPE_ELEMENT",
@@ -113,7 +112,7 @@ describe("parExpressionOrCastExpressionOrLambdaExpression", () => {
       Parser.parse("(@Bean A) this", parser =>
         parser.parExpressionOrCastExpressionOrLambdaExpression()
       )
-    ).toEqual({
+    ).to.deep.equal({
       type: "CAST_EXPRESSION",
       castType: {
         type: "TYPE_TYPE",
@@ -130,7 +129,7 @@ describe("parExpressionOrCastExpressionOrLambdaExpression", () => {
               ]
             },
             hasBraces: false,
-            values: undefined
+            values: []
           }
         ],
         dimensions: [],
@@ -148,7 +147,7 @@ describe("parExpressionOrCastExpressionOrLambdaExpression", () => {
       Parser.parse("(boolean[]) this", parser =>
         parser.parExpressionOrCastExpressionOrLambdaExpression()
       )
-    ).toEqual({
+    ).to.deep.equal({
       type: "CAST_EXPRESSION",
       castType: {
         type: "TYPE_TYPE",
@@ -174,7 +173,7 @@ describe("parExpressionOrCastExpressionOrLambdaExpression", () => {
       Parser.parse("(boolean[][]) this", parser =>
         parser.parExpressionOrCastExpressionOrLambdaExpression()
       )
-    ).toEqual({
+    ).to.deep.equal({
       type: "CAST_EXPRESSION",
       castType: {
         type: "TYPE_TYPE",
@@ -204,7 +203,7 @@ describe("parExpressionOrCastExpressionOrLambdaExpression", () => {
         "((LazyObject) obj).getIdentifier() == getIdentifier()",
         parser => parser.parExpressionOrCastExpressionOrLambdaExpression()
       )
-    ).toEqual({
+    ).to.deep.equal({
       type: "OPERATOR_EXPRESSION",
       left: {
         type: "QUALIFIED_EXPRESSION",
@@ -253,7 +252,7 @@ describe("parExpressionOrCastExpressionOrLambdaExpression", () => {
       Parser.parse("(java.lang.Exception) cause", parser =>
         parser.parExpressionOrCastExpressionOrLambdaExpression()
       )
-    ).toEqual({
+    ).to.deep.equal({
       type: "CAST_EXPRESSION",
       castType: {
         type: "QUALIFIED_EXPRESSION",
@@ -285,7 +284,9 @@ describe("parExpressionOrCastExpressionOrLambdaExpression", () => {
       Parser.parse("(1+1) this", parser =>
         parser.parExpressionOrCastExpressionOrLambdaExpression()
       )
-    ).toThrow(MismatchedTokenException);
+    ).to.throw(
+      "Found cast expression but cast expression is not an Identifier"
+    );
   });
 
   it("lambdaExpression: empty parameters", () => {
@@ -293,7 +294,7 @@ describe("parExpressionOrCastExpressionOrLambdaExpression", () => {
       Parser.parse("() -> {}", parser =>
         parser.parExpressionOrCastExpressionOrLambdaExpression()
       )
-    ).toEqual({
+    ).to.deep.equal({
       type: "LAMBDA_EXPRESSION",
       parameters: {
         type: "IDENTIFIERS",
@@ -311,7 +312,7 @@ describe("parExpressionOrCastExpressionOrLambdaExpression", () => {
       Parser.parse("(a) -> {}", parser =>
         parser.parExpressionOrCastExpressionOrLambdaExpression()
       )
-    ).toEqual({
+    ).to.deep.equal({
       type: "LAMBDA_EXPRESSION",
       parameters: {
         type: "IDENTIFIERS",
@@ -337,7 +338,7 @@ describe("parExpressionOrCastExpressionOrLambdaExpression", () => {
       Parser.parse("(a, b) -> {}", parser =>
         parser.parExpressionOrCastExpressionOrLambdaExpression()
       )
-    ).toEqual({
+    ).to.deep.equal({
       type: "LAMBDA_EXPRESSION",
       parameters: {
         type: "IDENTIFIERS",
@@ -367,7 +368,7 @@ describe("parExpressionOrCastExpressionOrLambdaExpression", () => {
       Parser.parse("(boolean a) -> {}", parser =>
         parser.parExpressionOrCastExpressionOrLambdaExpression()
       )
-    ).toEqual({
+    ).to.deep.equal({
       type: "LAMBDA_EXPRESSION",
       parameters: {
         type: "FORMAL_PARAMETERS",
@@ -403,7 +404,7 @@ describe("parExpressionOrCastExpressionOrLambdaExpression", () => {
       Parser.parse("(boolean a, double b) -> {}", parser =>
         parser.parExpressionOrCastExpressionOrLambdaExpression()
       )
-    ).toEqual({
+    ).to.deep.equal({
       type: "LAMBDA_EXPRESSION",
       parameters: {
         type: "FORMAL_PARAMETERS",
@@ -456,7 +457,7 @@ describe("parExpressionOrCastExpressionOrLambdaExpression", () => {
       Parser.parse("(final boolean a) -> {}", parser =>
         parser.parExpressionOrCastExpressionOrLambdaExpression()
       )
-    ).toEqual({
+    ).to.deep.equal({
       type: "LAMBDA_EXPRESSION",
       parameters: {
         type: "FORMAL_PARAMETERS",
@@ -497,7 +498,7 @@ describe("parExpressionOrCastExpressionOrLambdaExpression", () => {
       Parser.parse("(boolean a, final double b) -> {}", parser =>
         parser.parExpressionOrCastExpressionOrLambdaExpression()
       )
-    ).toEqual({
+    ).to.deep.equal({
       type: "LAMBDA_EXPRESSION",
       parameters: {
         type: "FORMAL_PARAMETERS",
@@ -555,7 +556,7 @@ describe("parExpressionOrCastExpressionOrLambdaExpression", () => {
       Parser.parse("(a - (b * c)) < d", parser =>
         parser.parExpressionOrCastExpressionOrLambdaExpression()
       )
-    ).toEqual({
+    ).to.deep.equal({
       type: "OPERATOR_EXPRESSION",
       left: {
         type: "OPERATOR_EXPRESSION",
@@ -596,7 +597,7 @@ describe("parExpressionOrCastExpressionOrLambdaExpression", () => {
       Parser.parse("((Cast) obj).call()", parser =>
         parser.parExpressionOrCastExpressionOrLambdaExpression()
       )
-    ).toEqual({
+    ).to.deep.equal({
       type: "QUALIFIED_EXPRESSION",
       expression: {
         type: "PAR_EXPRESSION",
@@ -629,7 +630,7 @@ describe("parExpressionOrCastExpressionOrLambdaExpression", () => {
       Parser.parse('((Cast) obj).call() ? "a" : "b"', parser =>
         parser.parExpressionOrCastExpressionOrLambdaExpression()
       )
-    ).toEqual({
+    ).to.deep.equal({
       type: "IF_ELSE_EXPRESSION",
       condition: {
         type: "QUALIFIED_EXPRESSION",
@@ -673,7 +674,7 @@ describe("parExpressionOrCastExpressionOrLambdaExpression", () => {
       Parser.parse('((Cast) obj).call() && true ? "a" : "b"', parser =>
         parser.parExpressionOrCastExpressionOrLambdaExpression()
       )
-    ).toEqual({
+    ).to.deep.equal({
       type: "OPERATOR_EXPRESSION",
       left: {
         type: "QUALIFIED_EXPRESSION",
@@ -728,7 +729,7 @@ describe("parExpressionOrCastExpressionOrLambdaExpression", () => {
       Parser.parse('(true) ? "a" : "b"', parser =>
         parser.parExpressionOrCastExpressionOrLambdaExpression()
       )
-    ).toEqual({
+    ).to.deep.equal({
       type: "IF_ELSE_EXPRESSION",
       condition: {
         type: "PAR_EXPRESSION",

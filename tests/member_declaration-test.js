@@ -1,11 +1,12 @@
 "use strict";
 const Parser = require("../src/index");
+const { expect } = require("chai");
 
 describe("memberDeclaration", () => {
   it("methodDeclaration", () => {
     expect(
       Parser.parse("void a() {}", parser => parser.memberDeclaration())
-    ).toEqual({
+    ).to.deep.equal({
       type: "METHOD_DECLARATION",
       typeType: {
         type: "VOID"
@@ -30,7 +31,7 @@ describe("memberDeclaration", () => {
   it("constructorDeclaration", () => {
     expect(
       Parser.parse("a() {}", parser => parser.memberDeclaration())
-    ).toEqual({
+    ).to.deep.equal({
       type: "CONSTRUCTOR_DECLARATION",
       name: {
         type: "IDENTIFIER",
@@ -51,14 +52,14 @@ describe("memberDeclaration", () => {
   it("interfaceDeclaration", () => {
     expect(
       Parser.parse("interface A{}", parser => parser.memberDeclaration())
-    ).toEqual({
+    ).to.deep.equal({
       type: "INTERFACE_DECLARATION",
       name: {
         type: "IDENTIFIER",
         value: "A"
       },
       typeParameters: undefined,
-      typeList: undefined,
+      extends: undefined,
       body: {
         type: "INTERFACE_BODY",
         declarations: []
@@ -69,7 +70,7 @@ describe("memberDeclaration", () => {
   it("annotationTypeDeclaration", () => {
     expect(
       Parser.parse("@interface A{}", parser => parser.memberDeclaration())
-    ).toEqual({
+    ).to.deep.equal({
       type: "ANNOTATION_TYPE_DECLARATION",
       name: {
         type: "IDENTIFIER",
@@ -85,12 +86,15 @@ describe("memberDeclaration", () => {
   it("classDeclaration", () => {
     expect(
       Parser.parse("class A{}", parser => parser.memberDeclaration())
-    ).toEqual({
+    ).to.deep.equal({
       type: "CLASS_DECLARATION",
       name: {
         type: "IDENTIFIER",
         value: "A"
       },
+      extends: undefined,
+      implements: undefined,
+      typeParameters: undefined,
       body: {
         type: "CLASS_BODY",
         declarations: []
@@ -101,21 +105,22 @@ describe("memberDeclaration", () => {
   it("enumDeclaration", () => {
     expect(
       Parser.parse("enum A{}", parser => parser.memberDeclaration())
-    ).toEqual({
+    ).to.deep.equal({
       type: "ENUM_DECLARATION",
       name: {
         type: "IDENTIFIER",
         value: "A"
       },
       implements: undefined,
-      enumConstants: undefined
+      enumConstants: undefined,
+      body: undefined
     });
   });
 
   it("genericMethodDeclarationOrGenericConstructorDeclaration", () => {
     expect(
       Parser.parse("<A> void a() {}", parser => parser.memberDeclaration())
-    ).toEqual({
+    ).to.deep.equal({
       type: "GENERIC_METHOD_DECLARATION",
       typeParameters: {
         type: "TYPE_PARAMETERS",
@@ -157,7 +162,7 @@ describe("memberDeclaration", () => {
   it("fieldDeclaration", () => {
     expect(
       Parser.parse("Abc def;", parser => parser.memberDeclaration())
-    ).toEqual({
+    ).to.deep.equal({
       type: "FIELD_DECLARATION",
       typeType: {
         type: "IDENTIFIER",

@@ -1,9 +1,10 @@
 "use strict";
 const Parser = require("../src/index");
+const { expect } = require("chai");
 
 describe("compilationUnit", () => {
   it("empty", () => {
-    expect(Parser.parse("", parser => parser.compilationUnit())).toEqual({
+    expect(Parser.parse("", parser => parser.compilationUnit())).to.deep.equal({
       type: "COMPILATION_UNIT",
       package: undefined,
       imports: [],
@@ -14,7 +15,7 @@ describe("compilationUnit", () => {
   it("package", () => {
     expect(
       Parser.parse("package pkg.name;", parser => parser.compilationUnit())
-    ).toEqual({
+    ).to.deep.equal({
       type: "COMPILATION_UNIT",
       package: {
         type: "PACKAGE_DECLARATION",
@@ -41,7 +42,7 @@ describe("compilationUnit", () => {
   it("single import", () => {
     expect(
       Parser.parse("import pkg.name;", parser => parser.compilationUnit())
-    ).toEqual({
+    ).to.deep.equal({
       type: "COMPILATION_UNIT",
       package: undefined,
       imports: [
@@ -72,7 +73,7 @@ describe("compilationUnit", () => {
       Parser.parse("import pkg.name;\nimport static some.other;", parser =>
         parser.compilationUnit()
       )
-    ).toEqual({
+    ).to.deep.equal({
       type: "COMPILATION_UNIT",
       package: undefined,
       imports: [
@@ -118,7 +119,7 @@ describe("compilationUnit", () => {
   it("single class", () => {
     expect(
       Parser.parse("class A{}", parser => parser.compilationUnit())
-    ).toEqual({
+    ).to.deep.equal({
       type: "COMPILATION_UNIT",
       package: undefined,
       imports: [],
@@ -135,7 +136,10 @@ describe("compilationUnit", () => {
             body: {
               type: "CLASS_BODY",
               declarations: []
-            }
+            },
+            extends: undefined,
+            implements: undefined,
+            typeParameters: undefined
           }
         }
       ]
@@ -145,7 +149,7 @@ describe("compilationUnit", () => {
   it("single class annotation", () => {
     expect(
       Parser.parse("@Annotation class A{}", parser => parser.compilationUnit())
-    ).toEqual({
+    ).to.deep.equal({
       type: "COMPILATION_UNIT",
       package: undefined,
       imports: [],
@@ -165,7 +169,7 @@ describe("compilationUnit", () => {
                 type: "QUALIFIED_NAME"
               },
               hasBraces: false,
-              values: undefined
+              values: []
             }
           ],
           declaration: {
@@ -177,7 +181,10 @@ describe("compilationUnit", () => {
             body: {
               type: "CLASS_BODY",
               declarations: []
-            }
+            },
+            extends: undefined,
+            implements: undefined,
+            typeParameters: undefined
           }
         }
       ]
@@ -187,7 +194,7 @@ describe("compilationUnit", () => {
   it("multiple classes", () => {
     expect(
       Parser.parse("class A{}\nclass B{}", parser => parser.compilationUnit())
-    ).toEqual({
+    ).to.deep.equal({
       type: "COMPILATION_UNIT",
       package: undefined,
       imports: [],
@@ -204,7 +211,10 @@ describe("compilationUnit", () => {
             body: {
               type: "CLASS_BODY",
               declarations: []
-            }
+            },
+            extends: undefined,
+            implements: undefined,
+            typeParameters: undefined
           }
         },
         {
@@ -219,7 +229,10 @@ describe("compilationUnit", () => {
             body: {
               type: "CLASS_BODY",
               declarations: []
-            }
+            },
+            extends: undefined,
+            implements: undefined,
+            typeParameters: undefined
           }
         }
       ]
@@ -229,7 +242,7 @@ describe("compilationUnit", () => {
   it("single enum", () => {
     expect(
       Parser.parse("enum A{}", parser => parser.compilationUnit())
-    ).toEqual({
+    ).to.deep.equal({
       type: "COMPILATION_UNIT",
       package: undefined,
       imports: [],
@@ -242,7 +255,10 @@ describe("compilationUnit", () => {
             name: {
               type: "IDENTIFIER",
               value: "A"
-            }
+            },
+            body: undefined,
+            enumConstants: undefined,
+            implements: undefined
           }
         }
       ]
@@ -252,7 +268,7 @@ describe("compilationUnit", () => {
   it("multiple enums", () => {
     expect(
       Parser.parse("enum A{}\nenum B{}", parser => parser.compilationUnit())
-    ).toEqual({
+    ).to.deep.equal({
       type: "COMPILATION_UNIT",
       package: undefined,
       imports: [],
@@ -265,7 +281,10 @@ describe("compilationUnit", () => {
             name: {
               type: "IDENTIFIER",
               value: "A"
-            }
+            },
+            body: undefined,
+            enumConstants: undefined,
+            implements: undefined
           }
         },
         {
@@ -276,7 +295,10 @@ describe("compilationUnit", () => {
             name: {
               type: "IDENTIFIER",
               value: "B"
-            }
+            },
+            body: undefined,
+            enumConstants: undefined,
+            implements: undefined
           }
         }
       ]
@@ -286,7 +308,7 @@ describe("compilationUnit", () => {
   it("single interface", () => {
     expect(
       Parser.parse("interface A{}", parser => parser.compilationUnit())
-    ).toEqual({
+    ).to.deep.equal({
       type: "COMPILATION_UNIT",
       package: undefined,
       imports: [],
@@ -303,7 +325,9 @@ describe("compilationUnit", () => {
             body: {
               type: "INTERFACE_BODY",
               declarations: []
-            }
+            },
+            extends: undefined,
+            typeParameters: undefined
           }
         }
       ]
@@ -315,7 +339,7 @@ describe("compilationUnit", () => {
       Parser.parse("interface A{}\ninterface B{}", parser =>
         parser.compilationUnit()
       )
-    ).toEqual({
+    ).to.deep.equal({
       type: "COMPILATION_UNIT",
       package: undefined,
       imports: [],
@@ -332,7 +356,9 @@ describe("compilationUnit", () => {
             body: {
               type: "INTERFACE_BODY",
               declarations: []
-            }
+            },
+            extends: undefined,
+            typeParameters: undefined
           }
         },
         {
@@ -347,7 +373,9 @@ describe("compilationUnit", () => {
             body: {
               type: "INTERFACE_BODY",
               declarations: []
-            }
+            },
+            extends: undefined,
+            typeParameters: undefined
           }
         }
       ]
@@ -357,7 +385,7 @@ describe("compilationUnit", () => {
   it("single annotationTypeInterface", () => {
     expect(
       Parser.parse("@interface A{}", parser => parser.compilationUnit())
-    ).toEqual({
+    ).to.deep.equal({
       type: "COMPILATION_UNIT",
       package: undefined,
       imports: [],
@@ -386,7 +414,7 @@ describe("compilationUnit", () => {
       Parser.parse("@interface A{}\n@interface B{}", parser =>
         parser.compilationUnit()
       )
-    ).toEqual({
+    ).to.deep.equal({
       type: "COMPILATION_UNIT",
       package: undefined,
       imports: [],
@@ -430,7 +458,7 @@ describe("compilationUnit", () => {
       Parser.parse("@Annotation package pkg;", parser =>
         parser.compilationUnit()
       )
-    ).toEqual({
+    ).to.deep.equal({
       type: "COMPILATION_UNIT",
       package: {
         type: "PACKAGE_DECLARATION",
@@ -447,7 +475,7 @@ describe("compilationUnit", () => {
               type: "QUALIFIED_NAME"
             },
             hasBraces: false,
-            values: undefined
+            values: []
           }
         ],
         name: {
@@ -470,7 +498,7 @@ describe("compilationUnit", () => {
       Parser.parse("@Annotation1 @Annotation2 package pkg;", parser =>
         parser.compilationUnit()
       )
-    ).toEqual({
+    ).to.deep.equal({
       type: "COMPILATION_UNIT",
       package: {
         type: "PACKAGE_DECLARATION",
@@ -487,7 +515,7 @@ describe("compilationUnit", () => {
               type: "QUALIFIED_NAME"
             },
             hasBraces: false,
-            values: undefined
+            values: []
           },
           {
             type: "ANNOTATION",
@@ -501,7 +529,7 @@ describe("compilationUnit", () => {
               type: "QUALIFIED_NAME"
             },
             hasBraces: false,
-            values: undefined
+            values: []
           }
         ],
         name: {

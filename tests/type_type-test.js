@@ -1,23 +1,26 @@
 "use strict";
 const Parser = require("../src/index");
+const { expect } = require("chai");
 
 describe("typeType", () => {
   it("primitiveType", () => {
-    expect(Parser.parse("boolean", parser => parser.typeType())).toEqual({
+    expect(Parser.parse("boolean", parser => parser.typeType())).to.deep.equal({
       type: "PRIMITIVE_TYPE",
       value: "boolean"
     });
   });
 
   it("identifier", () => {
-    expect(Parser.parse("A", parser => parser.typeType())).toEqual({
+    expect(Parser.parse("A", parser => parser.typeType())).to.deep.equal({
       type: "IDENTIFIER",
       value: "A"
     });
   });
 
   it("identifier with annotation", () => {
-    expect(Parser.parse("@Bean boolean", parser => parser.typeType())).toEqual({
+    expect(
+      Parser.parse("@Bean boolean", parser => parser.typeType())
+    ).to.deep.equal({
       type: "TYPE_TYPE",
       modifiers: [
         {
@@ -31,7 +34,8 @@ describe("typeType", () => {
               }
             ]
           },
-          hasBraces: false
+          hasBraces: false,
+          values: []
         }
       ],
       value: {
@@ -43,7 +47,9 @@ describe("typeType", () => {
   });
 
   it("one square", () => {
-    expect(Parser.parse("boolean[]", parser => parser.typeType())).toEqual({
+    expect(
+      Parser.parse("boolean[]", parser => parser.typeType())
+    ).to.deep.equal({
       type: "TYPE_TYPE",
       modifiers: [],
       value: {
@@ -59,7 +65,9 @@ describe("typeType", () => {
   });
 
   it("multiple square", () => {
-    expect(Parser.parse("boolean[][]", parser => parser.typeType())).toEqual({
+    expect(
+      Parser.parse("boolean[][]", parser => parser.typeType())
+    ).to.deep.equal({
       type: "TYPE_TYPE",
       modifiers: [],
       value: {
@@ -78,7 +86,7 @@ describe("typeType", () => {
   });
 
   it("annotation", () => {
-    expect(Parser.parse("@Bean", parser => parser.typeType())).toEqual({
+    expect(Parser.parse("@Bean", parser => parser.typeType())).to.deep.equal({
       type: "ANNOTATION",
       name: {
         type: "QUALIFIED_NAME",
@@ -89,7 +97,8 @@ describe("typeType", () => {
           }
         ]
       },
-      hasBraces: false
+      hasBraces: false,
+      values: []
     });
   });
 });
