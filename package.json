@@ -1,7 +1,7 @@
 {
   "name": "chevrotain-java",
   "version": "0.0.19",
-  "description": "java parser based on chevrotain",
+  "description": "Java Parser in JavaScript",
   "main": "src/index.js",
   "repository": "url",
   "author": "Thorben von Hacht",
