@@ -1,9 +1,9 @@
 {
-  "name": "chevrotain-java",
-  "version": "0.0.19",
+  "name": "java-parser",
+  "version": "0.1.0",
   "description": "Java Parser in JavaScript",
   "main": "src/index.js",
-  "repository": "url",
+  "repository": "https://github.com/bd82/java-parser",
   "author": "Thorben von Hacht",
   "license": "MIT",
   "dependencies": {
@@ -28,14 +28,5 @@
     "format_validate": "prettier --list-different \"**/*.@(js|json|md)\"",
     "lint": "eslint src/**/*.js tests/**/*.js",
     "test": "mocha \"./tests/**/*-test.js\""
-  },
-  "jest": {
-    "displayName": "test",
-    "snapshotSerializers": [
-      "<rootDir>/tests_config/raw-serializer.js"
-    ],
-    "testRegex": ".*-test\\.js$",
-    "collectCoverage": false,
-    "transform": {}
   }
 }
