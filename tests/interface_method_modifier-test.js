@@ -62,7 +62,8 @@ describe("interfaceMethodModifier", () => {
           }
         ]
       },
-      hasBraces: false
+      hasBraces: false,
+      values: []
     });
   });
 });

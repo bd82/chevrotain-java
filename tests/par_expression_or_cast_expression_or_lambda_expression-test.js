@@ -23,7 +23,7 @@ describe("parExpressionOrCastExpressionOrLambdaExpression", () => {
       Parser.parse("(@Bean this)", parser =>
         parser.parExpressionOrCastExpressionOrLambdaExpression()
       )
-    ).to.throw(MismatchedTokenException);
+    ).to.throw("Expecting --> ')' <-- but found --> 'this' <--");
   });
 
   it("error: parExpression with typeArguments", () => {
@@ -31,7 +31,7 @@ describe("parExpressionOrCastExpressionOrLambdaExpression", () => {
       Parser.parse("(@Bean this<boolean>)", parser =>
         parser.parExpressionOrCastExpressionOrLambdaExpression()
       )
-    ).to.throw(MismatchedTokenException);
+    ).to.throw("Expecting --> ')' <-- but found --> 'this' <--");
   });
 
   it("error: parExpression with Squares", () => {
@@ -39,7 +39,7 @@ describe("parExpressionOrCastExpressionOrLambdaExpression", () => {
       Parser.parse("(@Bean this[])", parser =>
         parser.parExpressionOrCastExpressionOrLambdaExpression()
       )
-    ).to.throw(MismatchedTokenException);
+    ).to.throw("Expecting --> ')' <-- but found --> 'this' <--");
   });
 
   it("castExpression: primitiveType", () => {
@@ -286,7 +286,9 @@ describe("parExpressionOrCastExpressionOrLambdaExpression", () => {
       Parser.parse("(1+1) this", parser =>
         parser.parExpressionOrCastExpressionOrLambdaExpression()
       )
-    ).to.throw(MismatchedTokenException);
+    ).to.throw(
+      "Found cast expression but cast expression is not an Identifier"
+    );
   });
 
   it("lambdaExpression: empty parameters", () => {

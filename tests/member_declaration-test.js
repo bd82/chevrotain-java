@@ -59,7 +59,7 @@ describe("memberDeclaration", () => {
         value: "A"
       },
       typeParameters: undefined,
-      typeList: undefined,
+      extends: undefined,
       body: {
         type: "INTERFACE_BODY",
         declarations: []
@@ -92,6 +92,9 @@ describe("memberDeclaration", () => {
         type: "IDENTIFIER",
         value: "A"
       },
+      extends: undefined,
+      implements: undefined,
+      typeParameters: undefined,
       body: {
         type: "CLASS_BODY",
         declarations: []
@@ -109,7 +112,8 @@ describe("memberDeclaration", () => {
         value: "A"
       },
       implements: undefined,
-      enumConstants: undefined
+      enumConstants: undefined,
+      body: undefined
     });
   });
 

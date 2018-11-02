@@ -42,7 +42,7 @@ describe("interfaceMemberDeclaration", () => {
         value: "A"
       },
       typeParameters: undefined,
-      typeList: undefined,
+      extends: undefined,
       body: {
         type: "INTERFACE_BODY",
         declarations: []
@@ -62,7 +62,10 @@ describe("interfaceMemberDeclaration", () => {
       body: {
         type: "CLASS_BODY",
         declarations: []
-      }
+      },
+      extends: undefined,
+      implements: undefined,
+      typeParameters: undefined
     });
   });
 

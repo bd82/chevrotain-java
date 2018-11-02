@@ -26,7 +26,8 @@ describe("variableModifier", () => {
           }
         ]
       },
-      hasBraces: false
+      hasBraces: false,
+      values: []
     });
   });
 });

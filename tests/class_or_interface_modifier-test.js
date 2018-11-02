@@ -80,6 +80,7 @@ describe("classOrInterfaceModifier", () => {
           }
         ]
       },
+      values: [],
       hasBraces: false
     });
   });
@@ -133,7 +134,7 @@ describe("classOrInterfaceModifier", () => {
             ]
           },
           hasBraces: false,
-          value: undefined
+          values: []
         }
       ]
     });
@@ -172,7 +173,7 @@ describe("classOrInterfaceModifier", () => {
                 ]
               },
               hasBraces: false,
-              value: undefined
+              values: []
             }
           ]
         }

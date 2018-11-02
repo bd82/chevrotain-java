@@ -34,7 +34,8 @@ describe("typeType", () => {
               }
             ]
           },
-          hasBraces: false
+          hasBraces: false,
+          values: []
         }
       ],
       value: {

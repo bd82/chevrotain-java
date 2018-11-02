@@ -38,7 +38,8 @@ describe("interfaceBody", () => {
             body: {
               type: "BLOCK",
               statements: []
-            }
+            },
+            typeParameters: undefined
           },
           followedEmptyLine: false
         }
@@ -63,6 +64,7 @@ describe("interfaceBody", () => {
             typeType: {
               type: "VOID"
             },
+            typeParameters: undefined,
             name: {
               type: "IDENTIFIER",
               value: "a"
@@ -89,6 +91,7 @@ describe("interfaceBody", () => {
             typeType: {
               type: "VOID"
             },
+            typeParameters: undefined,
             name: {
               type: "IDENTIFIER",
               value: "b"

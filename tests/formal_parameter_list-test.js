@@ -2,8 +2,6 @@
 const Parser = require("../src/index");
 const { expect } = require("chai");
 
-const MismatchedTokenException = require("chevrotain").MismatchedTokenException;
-
 describe("formalParameterList", () => {
   it("one formalParameter", () => {
     expect(
@@ -115,11 +113,11 @@ describe("formalParameterList", () => {
     ]);
   });
 
-  it("not last is dotDotDot -> excpect error", () => {
+  it("not last is dotDotDot -> expect error", () => {
     expect(() =>
       Parser.parse("boolean... a, boolean b", parser =>
         parser.formalParameterList()
       )
-    ).to.throwError(MismatchedTokenException);
+    ).to.throw('Only last parameter is allowed with "..."');
   });
 });

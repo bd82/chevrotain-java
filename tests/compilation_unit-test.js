@@ -136,7 +136,10 @@ describe("compilationUnit", () => {
             body: {
               type: "CLASS_BODY",
               declarations: []
-            }
+            },
+            extends: undefined,
+            implements: undefined,
+            typeParameters: undefined
           }
         }
       ]
@@ -178,7 +181,10 @@ describe("compilationUnit", () => {
             body: {
               type: "CLASS_BODY",
               declarations: []
-            }
+            },
+            extends: undefined,
+            implements: undefined,
+            typeParameters: undefined
           }
         }
       ]
@@ -205,7 +211,10 @@ describe("compilationUnit", () => {
             body: {
               type: "CLASS_BODY",
               declarations: []
-            }
+            },
+            extends: undefined,
+            implements: undefined,
+            typeParameters: undefined
           }
         },
         {
@@ -220,7 +229,10 @@ describe("compilationUnit", () => {
             body: {
               type: "CLASS_BODY",
               declarations: []
-            }
+            },
+            extends: undefined,
+            implements: undefined,
+            typeParameters: undefined
           }
         }
       ]
@@ -243,7 +255,10 @@ describe("compilationUnit", () => {
             name: {
               type: "IDENTIFIER",
               value: "A"
-            }
+            },
+            body: undefined,
+            enumConstants: undefined,
+            implements: undefined
           }
         }
       ]
@@ -266,7 +281,10 @@ describe("compilationUnit", () => {
             name: {
               type: "IDENTIFIER",
               value: "A"
-            }
+            },
+            body: undefined,
+            enumConstants: undefined,
+            implements: undefined
           }
         },
         {
@@ -277,7 +295,10 @@ describe("compilationUnit", () => {
             name: {
               type: "IDENTIFIER",
               value: "B"
-            }
+            },
+            body: undefined,
+            enumConstants: undefined,
+            implements: undefined
           }
         }
       ]
@@ -304,7 +325,9 @@ describe("compilationUnit", () => {
             body: {
               type: "INTERFACE_BODY",
               declarations: []
-            }
+            },
+            extends: undefined,
+            typeParameters: undefined
           }
         }
       ]
@@ -333,7 +356,9 @@ describe("compilationUnit", () => {
             body: {
               type: "INTERFACE_BODY",
               declarations: []
-            }
+            },
+            extends: undefined,
+            typeParameters: undefined
           }
         },
         {
@@ -348,7 +373,9 @@ describe("compilationUnit", () => {
             body: {
               type: "INTERFACE_BODY",
               declarations: []
-            }
+            },
+            extends: undefined,
+            typeParameters: undefined
           }
         }
       ]

@@ -46,7 +46,8 @@ describe("enhancedForControl", () => {
               }
             ]
           },
-          hasBraces: false
+          hasBraces: false,
+          values: []
         }
       ],
       typeType: {
@@ -86,7 +87,8 @@ describe("enhancedForControl", () => {
               }
             ]
           },
-          hasBraces: false
+          hasBraces: false,
+          values: []
         },
         {
           type: "MODIFIER",

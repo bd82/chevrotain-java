@@ -51,7 +51,8 @@ describe("catchClause", () => {
               }
             ]
           },
-          hasBraces: false
+          hasBraces: false,
+          values: []
         }
       ],
       catchType: {
@@ -96,7 +97,8 @@ describe("catchClause", () => {
               }
             ]
           },
-          hasBraces: false
+          hasBraces: false,
+          values: []
         },
         {
           type: "MODIFIER",

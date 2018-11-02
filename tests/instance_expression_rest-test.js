@@ -13,7 +13,8 @@ describe("instanceofExpressionRest", () => {
       typeType: {
         type: "PRIMITIVE_TYPE",
         value: "boolean"
-      }
+      },
+      operatorExpressionRest: undefined
     });
   });
 
