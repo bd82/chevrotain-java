@@ -7,6 +7,6 @@ It uses the [Chevrotain](https://github.com/SAP/chevrotain) parser building tool
 
 Mainly developed to be used in [prettier-java](https://github.com/thorbenvh8/prettier-java).
 
-# grammar diagram
+## grammar diagram
 
-[open](https://rawgit.com/bd82/java_parser/master/generated_diagrams.html)
+[open](https://bd82.github.io/java-parser/diagrams.html)
