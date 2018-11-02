@@ -1,22 +1,16 @@
 "use strict";
-const chevrotain = require("chevrotain");
+const {
+  Parser,
+  createTokenInstance,
+  EOF,
+  tokenMatcher
+} = require("chevrotain");
 const { allTokens, tokens } = require("./tokens");
 
-const Parser = chevrotain.Parser;
-
-const END_OF_FILE = chevrotain.createTokenInstance(
-  chevrotain.EOF,
-  "",
-  NaN,
-  NaN,
-  NaN,
-  NaN,
-  NaN,
-  NaN
-);
+const END_OF_FILE = createTokenInstance(EOF, "", NaN, NaN, NaN, NaN, NaN, NaN);
 Object.freeze(END_OF_FILE);
 
-class JavaParser extends chevrotain.Parser {
+class JavaParser extends Parser {
   constructor() {
     super(allTokens);
 
@@ -2814,12 +2808,12 @@ class JavaParser extends chevrotain.Parser {
     if (howMuch === 1) {
       let token = super.LA(howMuch);
       while (
-        chevrotain.tokenMatcher(token, tokens.LineComment) ||
-        chevrotain.tokenMatcher(token, tokens.JavaDocComment) ||
-        chevrotain.tokenMatcher(token, tokens.TraditionalComment) ||
-        chevrotain.tokenMatcher(token, tokens.LineCommentStandalone) ||
-        chevrotain.tokenMatcher(token, tokens.JavaDocCommentStandalone) ||
-        chevrotain.tokenMatcher(token, tokens.TraditionalCommentStandalone)
+        tokenMatcher(token, tokens.LineComment) ||
+        tokenMatcher(token, tokens.JavaDocComment) ||
+        tokenMatcher(token, tokens.TraditionalComment) ||
+        tokenMatcher(token, tokens.LineCommentStandalone) ||
+        tokenMatcher(token, tokens.JavaDocCommentStandalone) ||
+        tokenMatcher(token, tokens.TraditionalCommentStandalone)
       ) {
         const comment = token;
         super.consumeToken();
@@ -2833,15 +2827,9 @@ class JavaParser extends chevrotain.Parser {
             prevToken.name === "block"
           ) {
             if (
-              chevrotain.tokenMatcher(comment, tokens.LineCommentStandalone) ||
-              chevrotain.tokenMatcher(
-                comment,
-                tokens.JavaDocCommentStandalone
-              ) ||
-              chevrotain.tokenMatcher(
-                comment,
-                tokens.TraditionalCommentStandalone
-              )
+              tokenMatcher(comment, tokens.LineCommentStandalone) ||
+              tokenMatcher(comment, tokens.JavaDocCommentStandalone) ||
+              tokenMatcher(comment, tokens.TraditionalCommentStandalone)
             ) {
               if (prevToken.name === "classBody") {
                 this.addCommentStandAlone(
@@ -2861,10 +2849,10 @@ class JavaParser extends chevrotain.Parser {
             } else if (
               this.lastToken &&
               this.lastToken.startLine !== comment.startLine &&
-              chevrotain.tokenMatcher(token, tokens.RCurly) &&
-              (chevrotain.tokenMatcher(comment, tokens.LineComment) ||
-                chevrotain.tokenMatcher(comment, tokens.JavaDocComment) ||
-                chevrotain.tokenMatcher(comment, tokens.TraditionalComment))
+              tokenMatcher(token, tokens.RCurly) &&
+              (tokenMatcher(comment, tokens.LineComment) ||
+                tokenMatcher(comment, tokens.JavaDocComment) ||
+                tokenMatcher(comment, tokens.TraditionalComment))
             ) {
               // if its the last comment we transform it into a standalone comment
               if (prevToken.name === "classBody") {
@@ -2925,12 +2913,12 @@ class JavaParser extends chevrotain.Parser {
     let token = this.input[nextSearchIdx];
     while (
       token &&
-      (chevrotain.tokenMatcher(token, tokens.LineComment) ||
-        chevrotain.tokenMatcher(token, tokens.JavaDocComment) ||
-        chevrotain.tokenMatcher(token, tokens.TraditionalComment) ||
-        chevrotain.tokenMatcher(token, tokens.LineCommentStandalone) ||
-        chevrotain.tokenMatcher(token, tokens.JavaDocCommentStandalone) ||
-        chevrotain.tokenMatcher(token, tokens.TraditionalCommentStandalone))
+      (tokenMatcher(token, tokens.LineComment) ||
+        tokenMatcher(token, tokens.JavaDocComment) ||
+        tokenMatcher(token, tokens.TraditionalComment) ||
+        tokenMatcher(token, tokens.LineCommentStandalone) ||
+        tokenMatcher(token, tokens.JavaDocCommentStandalone) ||
+        tokenMatcher(token, tokens.TraditionalCommentStandalone))
     ) {
       nextSearchIdx++;
       token = this.input[nextSearchIdx];
@@ -2948,7 +2936,7 @@ class JavaParser extends chevrotain.Parser {
       // We will add all the comment that appeared after it on the same line
       // to the CST (Parse Tree)
       if (
-        chevrotain.tokenMatcher(nextToken, tokens.LineComment) &&
+        tokenMatcher(nextToken, tokens.LineComment) &&
         !nextToken.added &&
         ((lastElement.children.SemiColon &&
           nextToken.startLine ===
@@ -2971,15 +2959,12 @@ class JavaParser extends chevrotain.Parser {
       // We will add all the comment that appeared before it to the CST (Parse Tree)
       while (
         !prevToken.added &&
-        (chevrotain.tokenMatcher(prevToken, tokens.LineComment) ||
-          chevrotain.tokenMatcher(prevToken, tokens.TraditionalComment) ||
-          chevrotain.tokenMatcher(prevToken, tokens.JavaDocComment) ||
-          chevrotain.tokenMatcher(prevToken, tokens.LineCommentStandalone) ||
-          chevrotain.tokenMatcher(
-            prevToken,
-            tokens.TraditionalCommentStandalone
-          ) ||
-          chevrotain.tokenMatcher(prevToken, tokens.JavaDocCommentStandalone))
+        (tokenMatcher(prevToken, tokens.LineComment) ||
+          tokenMatcher(prevToken, tokens.TraditionalComment) ||
+          tokenMatcher(prevToken, tokens.JavaDocComment) ||
+          tokenMatcher(prevToken, tokens.LineCommentStandalone) ||
+          tokenMatcher(prevToken, tokens.TraditionalCommentStandalone) ||
+          tokenMatcher(prevToken, tokens.JavaDocCommentStandalone))
       ) {
         // TODO replace with faster method instead of replace
         if (!this.isEmptyComment(prevToken)) {
@@ -2997,17 +2982,17 @@ class JavaParser extends chevrotain.Parser {
   isEmptyComment(comment) {
     // TODO fix replace because SLOW
     return (
-      (chevrotain.tokenMatcher(comment, tokens.LineComment) &&
+      (tokenMatcher(comment, tokens.LineComment) &&
         comment.image.replace(/[\s]*/g, "") === "//") ||
-      (chevrotain.tokenMatcher(comment, tokens.JavaDocComment) &&
+      (tokenMatcher(comment, tokens.JavaDocComment) &&
         comment.image.replace(/[\s\n\r*]*/g, "") === "//") ||
-      (chevrotain.tokenMatcher(comment, tokens.TraditionalComment) &&
+      (tokenMatcher(comment, tokens.TraditionalComment) &&
         comment.image.replace(/[\s\n\r*]*/g, "") === "//") ||
-      (chevrotain.tokenMatcher(comment, tokens.LineCommentStandalone) &&
+      (tokenMatcher(comment, tokens.LineCommentStandalone) &&
         comment.image.replace(/[\s]*/g, "") === "//") ||
-      (chevrotain.tokenMatcher(comment, tokens.JavaDocCommentStandalone) &&
+      (tokenMatcher(comment, tokens.JavaDocCommentStandalone) &&
         comment.image.replace(/[\s\n\r*]*/g, "") === "//") ||
-      (chevrotain.tokenMatcher(comment, tokens.TraditionalCommentStandalone) &&
+      (tokenMatcher(comment, tokens.TraditionalCommentStandalone) &&
         comment.image.replace(/[\s\n\r*]*/g, "") === "//")
     );
   }
