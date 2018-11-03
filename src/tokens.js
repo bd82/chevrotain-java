@@ -738,6 +738,7 @@ const WhiteSpace = createToken({
 // | FINAL    // FINAL for class only -- does not apply to interfaces
 // | STRICTFP
 
+// TODO: the order of tokens defined should be a Lexer Concern
 // note we are placing WhiteSpace first as it is very common thus it will speed up the lexer.
 const allTokens = [
   WhiteSpace,
@@ -862,6 +863,9 @@ const allTokens = [
 
 module.exports = {
   allTokens,
+  // TODO: we can dynamically build the dictionary of tokens using the array of tokens
+  // No need for an extra 100 LOC fo this...
+
   tokens: {
     WhiteSpace,
     LineCommentStandalone,
