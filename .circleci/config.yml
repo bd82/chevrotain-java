@@ -3,6 +3,7 @@ base-build: &base-build
   steps:
     - checkout
     - run: yarn
+    - run: yarn run bootstrap
     - run: yarn run ci
 
 version: 2

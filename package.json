@@ -1,34 +1,26 @@
 {
-  "name": "java-parser",
-  "version": "0.1.0",
-  "description": "Java Parser in JavaScript",
-  "main": "src/index.js",
-  "repository": "https://github.com/bd82/java-parser",
-  "author": "Thorben von Hacht",
-  "license": "MIT",
-  "dependencies": {
-    "chevrotain": "4.1.0",
-    "xregexp": "4.0.0"
+  "name": "root",
+  "private": true,
+  "scripts": {
+    "bootstrap": "lerna bootstrap",
+    "ci": "npm-run-all build lint format_validate test",
+    "test": "mocha \"packages/*/tests/**/*-test.js\"",
+    "lint": "eslint packages/*/src/**/*.js packages/*/tests/**/*.js",
+    "format": "prettier --write \"**/*.@(js|json|md)\"",
+    "format_validate": "prettier --list-different \"**/*.@(js|json|md)\"",
+    "build": "node packages/java-parser/scripts/gen_diagrams.js"
   },
   "devDependencies": {
+    "lerna": "^3.4.3",
     "benchmark": "^2.1.4",
     "chai": "^4.2.0",
     "eslint": "5.8.0",
     "eslint-config-google": "0.11.0",
     "eslint-config-prettier": "3.1.0",
-    "eslint-plugin-import": "2.8.0",
     "fs-extra": "^7.0.0",
     "klaw-sync": "^6.0.0",
     "mocha": "^5.2.0",
     "npm-run-all": "4.1.3",
     "prettier": "1.14.3"
-  },
-  "scripts": {
-    "ci": "npm-run-all build lint format_validate test",
-    "build": "node scripts/gen_diagrams.js",
-    "format": "prettier --write \"**/*.@(js|json|md)\"",
-    "format_validate": "prettier --list-different \"**/*.@(js|json|md)\"",
-    "lint": "eslint src/**/*.js tests/**/*.js",
-    "test": "mocha \"./tests/**/*-test.js\""
   }
 }
