@@ -5,7 +5,6 @@ root: true
 env:
   es6: true
   node: true
-  jest: true
 rules:
   curly: error
   no-else-return: error
@@ -26,8 +25,10 @@ rules:
   - never
   - exceptRange: true
 overrides:
-- files: "tests/**/*.js"
+- files: "packages/*/tests/**/*.js"
   rules:
     strict: off
   globals:
-    run_spec: true
+    describe: true
+    it: true
+
